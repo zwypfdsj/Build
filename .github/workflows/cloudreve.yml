@@ -1,0 +1,39 @@
+name: Cloudreve
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Init
+        run: |
+          sudo apt update
+          sudo apt install -y git
+          git clone https://github.com/zwypfdsj/docker /opt/docker
+
+      - name: Build
+        run: |
+          cd /opt/docker/cloudreve
+          docker build -t cloudreve - < Dockerfile
+          id=$(docker create cloudreve)
+          docker cp $id:/Cloudreve/cloudreve-amd64 /opt/docker/cloudreve/cloudreve-amd64
+          docker cp $id:/Cloudreve/cloudreve-arm64 /opt/docker/cloudreve/cloudreve-arm64
+          docker rm -v $id
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: cloudreve-amd64
+          path: /opt/docker/cloudreve/cloudreve-amd64
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: cloudreve-arm64
+          path: /opt/docker/cloudreve/cloudreve-arm64

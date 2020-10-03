@@ -1,0 +1,79 @@
+name: Padavan
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    name: K2P
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Install Dep
+        run: |
+          sudo apt update
+          sudo apt install -y wget curl git unzip fakeroot build-essential cmake gperf gawk flex bison xxd cpio gettext automake autopoint texinfo help2man python-docutils pkg-config libtool-bin zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev kmod
+
+      - name: Source Code
+        run: |
+          git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
+          sudo chmod -R 777 /opt/rt-n56u
+
+      - name: Build Toolchain
+        run: |
+          cd /opt/rt-n56u/toolchain-mipsel
+          sudo ./clean_toolchain
+          sudo ./build_toolchain
+
+      - name: Modify K2P_nano.config
+        run: |
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_DDNS_SSL=n/CONFIG_FIRMWARE_INCLUDE_DDNS_SSL=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_HTTPS=n/CONFIG_FIRMWARE_INCLUDE_HTTPS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_NAPT66=y/CONFIG_FIRMWARE_INCLUDE_NAPT66=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=n/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_SSSERVER=n/CONFIG_FIRMWARE_INCLUDE_SSSERVER=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=n/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_VLMCSD=y/CONFIG_FIRMWARE_INCLUDE_VLMCSD=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_SRELAY=y/CONFIG_FIRMWARE_INCLUDE_SRELAY=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_FRPC=n/CONFIG_FIRMWARE_INCLUDE_FRPC=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_FRPS=n/CONFIG_FIRMWARE_INCLUDE_FRPS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
+
+      - name: Modify K2P_nano-5.0.config
+        run: |
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_DDNS_SSL=n/CONFIG_FIRMWARE_INCLUDE_DDNS_SSL=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_HTTPS=n/CONFIG_FIRMWARE_INCLUDE_HTTPS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_NAPT66=y/CONFIG_FIRMWARE_INCLUDE_NAPT66=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=n/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_SSSERVER=n/CONFIG_FIRMWARE_INCLUDE_SSSERVER=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=n/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_VLMCSD=y/CONFIG_FIRMWARE_INCLUDE_VLMCSD=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_SRELAY=y/CONFIG_FIRMWARE_INCLUDE_SRELAY=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_FRPC=n/CONFIG_FIRMWARE_INCLUDE_FRPC=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_FRPS=n/CONFIG_FIRMWARE_INCLUDE_FRPS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
+
+      - name: Build K2P-nano
+        run: |
+          cd /opt/rt-n56u/trunk
+          sudo ./clear_tree
+          sudo ./build_firmware_ci K2P_nano
+
+      - name : Upload K2P-nano
+        uses: actions/upload-artifact@v1
+        with:
+          name: K2P-nano
+          path: /opt/rt-n56u/trunk/images/K2P_3.4.3.9-099.trx
+
+      - name: Build K2P-nano-5
+        run: |
+          cd /opt/rt-n56u/trunk
+          sudo ./clear_tree
+          sudo ./build_firmware_ci K2P_nano-5.0
+
+      - name : Upload K2P-nano-5
+        uses: actions/upload-artifact@v1
+        with:
+          name: K2P-nano-5
+          path: /opt/rt-n56u/trunk/images/K2P_3.4.3.9-099.trx

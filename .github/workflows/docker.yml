@@ -1,0 +1,50 @@
+name: Docker
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Login to DockerHub
+        uses: docker/login-action@v1
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_PASSWORD }}
+
+      - name: Init
+        run: |
+          sudo apt update
+          sudo apt install -y git
+          git clone https://github.com/zwypfdsj/docker /opt/docker
+
+      - name: V2Ray
+        run: |
+          cd /opt/docker/v2ray
+          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:v2ray . --push
+
+      - name : WWW
+        run: |
+          cd /opt/docker/www
+          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:www . --push
+
+      - name : ARIA2
+        run: |
+          cd /opt/docker/aria2
+          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:aria2 . --push
+
+      - name : RSSBot
+        run: |
+          cd /opt/docker/rssbot
+          docker buildx build --platform linux/amd64 -t zwypfdsj/docker:rssbot . --push
