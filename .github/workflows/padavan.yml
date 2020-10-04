@@ -15,7 +15,7 @@ jobs:
       - name: Install Dep
         run: |
           sudo apt update
-          sudo apt install -y wget curl git unzip fakeroot build-essential cmake gperf gawk flex bison xxd cpio gettext automake autopoint texinfo help2man python-docutils pkg-config libtool-bin zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev kmod
+          sudo apt install -y wget curl git unzip fakeroot cmake kmod gperf gawk flex bison xxd cpio gettext automake autopoint texinfo help2man python-docutils pkg-config libtool-bin zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev libc-dev-bin build-essential
 
       - name: Source Code
         run: |
