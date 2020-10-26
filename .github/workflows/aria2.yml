@@ -42,19 +42,19 @@ jobs:
           docker rm -v $id
 
       - name : Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: aria2c-amd64
           path: /opt/docker/aria2/aria2c-amd64
 
       - name : Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: aria2c-arm64
           path: /opt/docker/aria2/aria2c-arm64
 
       - name : Upload artifact
-        uses: actions/upload-artifact@v1
+        uses: actions/upload-artifact@v2
         with:
           name: aria2c.exe
           path: /opt/docker/aria2/aria2c.exe

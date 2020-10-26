@@ -1,0 +1,59 @@
+name: V2Ray
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.15'
+
+      - name: Init
+        run: |
+          sudo apt update
+          sudo apt install -y git
+          git clone https://github.com/v2fly/v2ray-core.git /opt/v2ray-core
+
+      - name: Build
+        run: |
+          cd /opt/v2ray-core
+          export CODENAME=$(git rev-parse --short HEAD)
+          export BUILDNAME=$(date '+%Y%m%d-%H%M%S')
+          export LDFLAGS="-s -w -buildid= -X v2ray.com/core.codename=${CODENAME} -X v2ray.com/core.build=${BUILDNAME}"
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /opt/v2ray -trimpath -ldflags "$LDFLAGS" ./main
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /opt/v2ctl -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o /opt/v2ray-arm64 -trimpath -ldflags "$LDFLAGS" ./main
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o /opt/v2ctl-arm64 -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o /opt/v2ray.exe -trimpath -ldflags "$LDFLAGS" ./main
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o /opt/wv2ray.exe -trimpath -ldflags "-s -w -H windowsgui -buildid=" ./main
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o /opt/v2ctl.exe -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: v2ray-linux-64
+          path: /opt/v2ray
+          path: /opt/v2ray
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: v2ray-windows-64
+          path: /opt/v2ray.exe
+          path: /opt/wv2ray.exe
+          path: /opt/v2ctl.exe
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: v2ray-linux-arm64-v8a
+          path: /opt/v2ray-arm64
+          path: /opt/v2ray-arm64
