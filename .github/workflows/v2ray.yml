@@ -40,20 +40,23 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: v2ray-linux-64
-          path: /opt/v2ray
-          path: /opt/v2ray
+          path: |
+            /opt/v2ray
+            /opt/v2ctl
 
       - name : Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: v2ray-windows-64
-          path: /opt/v2ray.exe
-          path: /opt/wv2ray.exe
-          path: /opt/v2ctl.exe
+          path: |
+            /opt/v2ray.exe
+            /opt/wv2ray.exe
+            /opt/v2ctl.exe
 
       - name : Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: v2ray-linux-arm64-v8a
-          path: /opt/v2ray-arm64
-          path: /opt/v2ray-arm64
+          path: |
+            /opt/v2ray-arm64
+            /opt/v2ray-arm64
