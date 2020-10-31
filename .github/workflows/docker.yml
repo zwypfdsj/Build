@@ -34,17 +34,17 @@ jobs:
           cd /opt/docker/v2ray
           docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:v2ray . --push
 
-      - name : WWW
+      - name : PHP
         run: |
-          cd /opt/docker/www
-          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:www . --push
+          cd /opt/docker/php
+          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:php . --push
 
       - name : Caddy
         run: |
           cd /opt/docker/caddy
           docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:caddy . --push
 
-      - name : ARIA2
+      - name : Aria2
         run: |
           cd /opt/docker/aria2
           docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:aria2 . --push

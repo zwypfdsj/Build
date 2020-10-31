@@ -2,7 +2,9 @@
 
 Project | Status
 ---- | ----
-Docker | ![Docker](https://github.com/zwypfdsj/build/workflows/Docker/badge.svg)
+Aria2 | ![Aria2](https://github.com/zwypfdsj/build/workflows/Aria2/badge.svg)
 Padavan | ![Padavan](https://github.com/zwypfdsj/build/workflows/Padavan/badge.svg)
+Legado | ![Legado](https://github.com/zwypfdsj/build/workflows/Legado/badge.svg)
 KeePassDX | ![KeePassDX](https://github.com/zwypfdsj/build/workflows/KeePassDX/badge.svg)
 V2Ray | ![V2Ray](https://github.com/zwypfdsj/build/workflows/V2Ray/badge.svg)
+Docker | ![Docker](https://github.com/zwypfdsj/build/workflows/Docker/badge.svg)
