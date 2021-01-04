@@ -12,15 +12,16 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Install Dep
+      - name: Install Dependence
         run: |
           sudo apt update
-          sudo apt install -y wget curl git unzip fakeroot cmake kmod gperf gawk flex bison xxd cpio gettext automake autopoint texinfo help2man python-docutils pkg-config libtool-bin zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev libc-dev-bin build-essential
+          sudo apt install -y unzip libtool-bin curl cmake gperf gawk flex bison nano xxd fakeroot kmod cpio git python3-docutils gettext automake autopoint texinfo build-essential help2man pkg-config zlib1g-dev libgmp3-dev libmpc-dev libmpfr-dev libncurses5-dev libltdl-dev wget libc-dev-bin
 
-      - name: Source Code
+      - name: Init
         run: |
           git clone --depth=1 https://github.com/hanwckf/rt-n56u.git /opt/rt-n56u
           sudo chmod -R 777 /opt/rt-n56u
+          sh /opt/rt-n56u/trunk/tools/shellcheck.sh
 
       - name: Build Toolchain
         run: |
@@ -57,7 +58,6 @@ jobs:
       - name: Build K2P-nano
         run: |
           cd /opt/rt-n56u/trunk
-          sudo ./clear_tree
           sudo ./build_firmware_ci K2P_nano
 
       - name : Upload K2P-nano
@@ -69,7 +69,7 @@ jobs:
       - name: Build K2P-nano-5
         run: |
           cd /opt/rt-n56u/trunk
-          sudo ./clear_tree
+          sudo ./clear_tree_simple
           sudo ./build_firmware_ci K2P_nano-5.0
 
       - name : Upload K2P-nano-5
