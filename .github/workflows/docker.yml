@@ -39,11 +39,6 @@ jobs:
           cd /opt/docker/xray
           docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:xray . --push
 
-      - name : PHP
-        run: |
-          cd /opt/docker/php
-          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:php . --push
-
       - name : Caddy
         run: |
           cd /opt/docker/caddy
