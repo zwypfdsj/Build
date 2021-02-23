@@ -1,0 +1,51 @@
+name: nezha
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.16'
+
+      - name: Init
+        run: |
+          sudo apt update
+          sudo apt install -y git build-essential
+          git clone https://github.com/naiba/nezha.git /opt/nezha
+
+      - name: Build Dashboard
+        run: |
+          cd /opt/nezha/cmd/dashboard
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -trimpath -ldflags="-s -w" -o /nezha-dashboard-amd64
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -trimpath -ldflags="-s -w" -o /nezha-dashboard-arm64
+
+      - name: Build Agent
+        run: |
+          cd /opt/nezha/cmd/agent
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -trimpath -ldflags="-s -w" -o /nezha-agent-amd64
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -trimpath -ldflags="-s -w" -o /nezha-agent-arm64
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: nezha-dashboard
+          path: |
+            /opt/nezha-dashboard-amd64
+            /opt/nezha-dashboard-arm64
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: nezha-agent
+          path: |
+            /opt/nezha-agent-amd64
+            /opt/nezha-agent-arm64
