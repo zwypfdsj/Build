@@ -34,6 +34,11 @@ jobs:
           cd /opt/docker/v2ray
           docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:v2ray . --push
 
+      - name: Xray
+        run: |
+          cd /opt/docker/xray
+          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:xray . --push
+
       - name : PHP
         run: |
           cd /opt/docker/php
@@ -52,4 +57,4 @@ jobs:
       - name : RSSBot
         run: |
           cd /opt/docker/rssbot
-          docker buildx build --platform linux/amd64 -t zwypfdsj/docker:rssbot . --push
+          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:rssbot . --push
