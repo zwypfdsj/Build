@@ -11,29 +11,47 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Setup Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.16'
+
       - name: Init
         run: |
           sudo apt update
           sudo apt install -y git
-          git clone https://github.com/zwypfdsj/docker /opt/docker
+          git clone --recurse-submodules https://github.com/cloudreve/Cloudreve.git /opt/Cloudreve
 
-      - name: Build
+      - name: Build Frontend
         run: |
-          cd /opt/docker/cloudreve
-          docker build -t cloudreve - < Dockerfile
-          id=$(docker create cloudreve)
-          docker cp $id:/Cloudreve/cloudreve-amd64 /opt/docker/cloudreve/cloudreve-amd64
-          docker cp $id:/Cloudreve/cloudreve-arm64 /opt/docker/cloudreve/cloudreve-arm64
-          docker rm -v $id
+          cd /opt/Cloudreve/assets
+          yarn install
+          yarn run build
+
+      - name: Build Backend
+        run: |
+          cd /opt/Cloudreve
+          go get github.com/rakyll/statik
+          statik -src=assets/build/ -include=*.html,*.js,*.json,*.css,*.png,*.svg,*.ico -f
+          export COMMIT_SHA=$(git rev-parse --short HEAD)
+          export VERSION=$(git describe --tags)
+          export LDFLAGS="-s -w -X 'github.com/cloudreve/Cloudreve/v3/pkg/conf.BackendVersion=${VERSION}' -X 'github.com/cloudreve/Cloudreve/v3/pkg/conf.LastCommit=${COMMIT_SHA}'"
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -trimpath -ldflags "$LDFLAGS" -o cloudreve-amd64
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -trimpath -ldflags "$LDFLAGS" -o cloudreve-arm64
 
       - name : Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: cloudreve-amd64
-          path: /opt/docker/cloudreve/cloudreve-amd64
+          path: /opt/Cloudreve/cloudreve-amd64
 
       - name : Upload artifact
         uses: actions/upload-artifact@v2
         with:
           name: cloudreve-arm64
-          path: /opt/docker/cloudreve/cloudreve-arm64
+          path: /opt/Cloudreve/cloudreve-arm64

@@ -14,7 +14,7 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v2
         with:
-          go-version: '^1.15'
+          go-version: '^1.16'
 
       - name: Init
         run: |
@@ -27,14 +27,15 @@ jobs:
           cd /opt/v2ray-core
           export CODENAME=$(git rev-parse --short HEAD)
           export BUILDNAME=$(date '+%Y%m%d-%H%M%S')
-          export LDFLAGS="-s -w -buildid= -X v2ray.com/core.codename=${CODENAME} -X v2ray.com/core.build=${BUILDNAME}"
-          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /opt/v2ray -trimpath -ldflags "$LDFLAGS" ./main
-          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /opt/v2ctl -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
-          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o /opt/v2ray-arm64 -trimpath -ldflags "$LDFLAGS" ./main
-          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o /opt/v2ctl-arm64 -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
-          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o /opt/v2ray.exe -trimpath -ldflags "$LDFLAGS" ./main
-          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o /opt/wv2ray.exe -trimpath -ldflags "-s -w -H windowsgui -buildid=" ./main
-          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o /opt/v2ctl.exe -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
+          export VERSIONTAG=$(git describe --abbrev=0 --tags)
+          export LDFLAGS="-s -w -buildid= -X github.com/v2fly/v2ray-core/v4.codename=${CODENAME} -X github.com/v2fly/v2ray-core/v4.build=${BUILDNAME} -X github.com/v2fly/v2ray-core/v4.version=${VERSIONTAG}"
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o /opt/v2ray -trimpath -ldflags "$LDFLAGS" ./main
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o /opt/v2ctl -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -o /opt/v2ray-arm64 -trimpath -ldflags "$LDFLAGS" ./main
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -o /opt/v2ctl-arm64 -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -o /opt/v2ray.exe -trimpath -ldflags "$LDFLAGS" ./main
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -o /opt/wv2ray.exe -trimpath -ldflags "-s -w -H windowsgui -buildid=" ./main
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -o /opt/v2ctl.exe -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
 
       - name : Upload artifact
         uses: actions/upload-artifact@v2

@@ -1,0 +1,55 @@
+name: Xray
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: '^1.16'
+
+      - name: Init
+        run: |
+          sudo apt update
+          sudo apt install -y git
+          git clone https://github.com/XTLS/Xray-core.git /opt/Xray-core
+
+      - name: Build
+        run: |
+          cd /opt/Xray-core
+          export CODENAME=$(git rev-parse --short HEAD)
+          export BUILDNAME=$(date '+%Y%m%d-%H%M%S')
+          export VERSIONTAG=$(git describe --abbrev=0 --tags)
+          export LDFLAGS="-s -w -buildid= -X github.com/xtls/xray-core/core.codename=${CODENAME} -X github.com/xtls/xray-core/core.build=${BUILDNAME} -X github.com/xtls/xray-core/core.version=${VERSIONTAG}"
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /opt/xray -trimpath -ldflags "$LDFLAGS" ./main
+          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -o /opt/xray-arm64 -trimpath -ldflags "$LDFLAGS" ./main
+          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -o /opt/xray.exe -trimpath -ldflags "$LDFLAGS" ./main
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: xray-linux-64
+          path: |
+            /opt/xray
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: xray-windows-64
+          path: |
+            /opt/xray.exe
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: xray-linux-arm64-v8a
+          path: |
+            /opt/xray-arm64
