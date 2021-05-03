@@ -31,29 +31,13 @@ jobs:
 
       - name: Modify K2P_nano.config
         run: |
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_DDNS_SSL=n/CONFIG_FIRMWARE_INCLUDE_DDNS_SSL=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
           sed -i 's/CONFIG_FIRMWARE_INCLUDE_HTTPS=n/CONFIG_FIRMWARE_INCLUDE_HTTPS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
           sed -i 's/CONFIG_FIRMWARE_INCLUDE_NAPT66=y/CONFIG_FIRMWARE_INCLUDE_NAPT66=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=n/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_SSSERVER=n/CONFIG_FIRMWARE_INCLUDE_SSSERVER=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=n/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
           sed -i 's/CONFIG_FIRMWARE_INCLUDE_VLMCSD=y/CONFIG_FIRMWARE_INCLUDE_VLMCSD=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
           sed -i 's/CONFIG_FIRMWARE_INCLUDE_SRELAY=y/CONFIG_FIRMWARE_INCLUDE_SRELAY=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
           sed -i 's/CONFIG_FIRMWARE_INCLUDE_FRPC=n/CONFIG_FIRMWARE_INCLUDE_FRPC=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
           sed -i 's/CONFIG_FIRMWARE_INCLUDE_FRPS=n/CONFIG_FIRMWARE_INCLUDE_FRPS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
-
-      - name: Modify K2P_nano-5.0.config
-        run: |
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_DDNS_SSL=n/CONFIG_FIRMWARE_INCLUDE_DDNS_SSL=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_HTTPS=n/CONFIG_FIRMWARE_INCLUDE_HTTPS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_NAPT66=y/CONFIG_FIRMWARE_INCLUDE_NAPT66=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=n/CONFIG_FIRMWARE_INCLUDE_SHADOWSOCKS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_SSSERVER=n/CONFIG_FIRMWARE_INCLUDE_SSSERVER=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=n/CONFIG_FIRMWARE_INCLUDE_DNSFORWARDER=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_VLMCSD=y/CONFIG_FIRMWARE_INCLUDE_VLMCSD=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_SRELAY=y/CONFIG_FIRMWARE_INCLUDE_SRELAY=n/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_FRPC=n/CONFIG_FIRMWARE_INCLUDE_FRPC=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
-          sed -i 's/CONFIG_FIRMWARE_INCLUDE_FRPS=n/CONFIG_FIRMWARE_INCLUDE_FRPS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano-5.0.config
+          sed -i 's/CONFIG_FIRMWARE_INCLUDE_WIREGUARD=n/CONFIG_FIRMWARE_INCLUDE_WIREGUARD=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
 
       - name: Build K2P-nano
         run: |
@@ -64,16 +48,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: K2P-nano
-          path: /opt/rt-n56u/trunk/images/K2P_3.4.3.9-099.trx
-
-      - name: Build K2P-nano-5
-        run: |
-          cd /opt/rt-n56u/trunk
-          sudo ./clear_tree_simple
-          sudo ./build_firmware_ci K2P_nano-5.0
-
-      - name : Upload K2P-nano-5
-        uses: actions/upload-artifact@v2
-        with:
-          name: K2P-nano-5
           path: /opt/rt-n56u/trunk/images/K2P_3.4.3.9-099.trx
