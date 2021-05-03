@@ -52,7 +52,8 @@ jobs:
       - name : nezha
         run: |
           cd /opt/docker/nezha
-          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:nezha . --push
+          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:nezha-dashboard -f Dockerfile.dashboard . --push
+          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:nezha-agent -f Dockerfile.agent . --push
 
       - name : Aria2
         run: |
