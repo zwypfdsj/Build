@@ -34,13 +34,13 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y git
-          git clone https://github.com/zwypfdsj/docker.git
+          git clone https://github.com/zwypfdsj/docker.git /opt/docker
 
       - name: V2Ray
         uses: docker/build-push-action@v2
         with:
-          context: ./v2ray
-          file: ./v2ray/Dockerfile
+          context: /opt/docker/v2ray
+          file: /opt/docker/v2ray/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
@@ -50,8 +50,8 @@ jobs:
       - name: XRay
         uses: docker/build-push-action@v2
         with:
-          context: ./xray
-          file: ./xray/Dockerfile
+          context: /opt/docker/xray
+          file: /opt/docker/xray/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
@@ -61,8 +61,8 @@ jobs:
       - name: Caddy
         uses: docker/build-push-action@v2
         with:
-          context: ./caddy
-          file: ./caddy/Dockerfile
+          context: /opt/docker/caddy
+          file: /opt/docker/caddy/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
@@ -72,8 +72,8 @@ jobs:
       - name: RSSBot
         uses: docker/build-push-action@v2
         with:
-          context: ./rssbot
-          file: ./rssbot/Dockerfile
+          context: /opt/docker/rssbot
+          file: /opt/docker/rssbot/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
@@ -83,8 +83,8 @@ jobs:
       - name: nezha-dashboard
         uses: docker/build-push-action@v2
         with:
-          context: ./nezha
-          file: ./nezha/Dockerfile.dashboard
+          context: /opt/docker/nezha
+          file: /opt/docker/nezha/Dockerfile.dashboard
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
@@ -94,8 +94,8 @@ jobs:
       - name: nezha-agent
         uses: docker/build-push-action@v2
         with:
-          context: ./nezha
-          file: ./nezha/Dockerfile.agent
+          context: /opt/docker/nezha
+          file: /opt/docker/nezha/Dockerfile.agent
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
@@ -105,8 +105,8 @@ jobs:
       - name: Aria2
         uses: docker/build-push-action@v2
         with:
-          context: ./aria2
-          file: ./aria2/Dockerfile
+          context: /opt/docker/aria2
+          file: /opt/docker/aria2/Dockerfile
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
