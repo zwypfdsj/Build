@@ -23,39 +23,92 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GHCR_TOKEN }}
+
       - name: Init
         run: |
           sudo apt update
           sudo apt install -y git
-          git clone https://github.com/zwypfdsj/docker.git /opt/docker
+          git clone https://github.com/zwypfdsj/docker.git
 
       - name: V2Ray
-        run: |
-          cd /opt/docker/v2ray
-          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:v2ray . --push
+        uses: docker/build-push-action@v2
+        with:
+          context: ./v2ray
+          file: ./v2ray/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            zwypfdsj/docker:v2ray
+            ghcr.io/zwypfdsj/v2ray:latest
 
-      - name: Xray
-        run: |
-          cd /opt/docker/xray
-          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:xray . --push
+      - name: XRay
+        uses: docker/build-push-action@v2
+        with:
+          context: ./xray
+          file: ./xray/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            zwypfdsj/docker:xray
+            ghcr.io/zwypfdsj/xray:latest
 
-      - name : Caddy
-        run: |
-          cd /opt/docker/caddy
-          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:caddy . --push
+      - name: Caddy
+        uses: docker/build-push-action@v2
+        with:
+          context: ./caddy
+          file: ./caddy/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            zwypfdsj/docker:caddy
+            ghcr.io/zwypfdsj/caddy:latest
 
-      - name : RSSBot
-        run: |
-          cd /opt/docker/rssbot
-          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:rssbot . --push
+      - name: RSSBot
+        uses: docker/build-push-action@v2
+        with:
+          context: ./rssbot
+          file: ./rssbot/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            zwypfdsj/docker:rssbot
+            ghcr.io/zwypfdsj/rssbot:latest
 
-      - name : nezha
-        run: |
-          cd /opt/docker/nezha
-          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:nezha-dashboard -f Dockerfile.dashboard . --push
-          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:nezha-agent -f Dockerfile.agent . --push
+      - name: nezha-dashboard
+        uses: docker/build-push-action@v2
+        with:
+          context: ./nezha
+          file: ./nezha/Dockerfile.dashboard
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            zwypfdsj/docker:nezha-dashboard
+            ghcr.io/zwypfdsj/nezha-dashboard:latest
 
-      - name : Aria2
-        run: |
-          cd /opt/docker/aria2
-          docker buildx build --platform linux/amd64,linux/arm64 -t zwypfdsj/docker:aria2 . --push
+      - name: nezha-agent
+        uses: docker/build-push-action@v2
+        with:
+          context: ./nezha
+          file: ./nezha/Dockerfile.agent
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            zwypfdsj/docker:nezha-agent
+            ghcr.io/zwypfdsj/nezha-agent:latest
+
+      - name: Aria2
+        uses: docker/build-push-action@v2
+        with:
+          context: ./aria2
+          file: ./aria2/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: true
+          tags: |
+            zwypfdsj/docker:aria2
+            ghcr.io/zwypfdsj/aria2:latest
