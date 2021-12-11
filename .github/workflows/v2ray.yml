@@ -14,7 +14,7 @@ jobs:
       - name: Setup Go
         uses: actions/setup-go@v2
         with:
-          go-version: '^1.16'
+          go-version: '^1.17'
 
       - name: Init
         run: |
@@ -29,21 +29,9 @@ jobs:
           export BUILDNAME=$(date '+%Y%m%d-%H%M%S')
           export VERSIONTAG=$(git describe --abbrev=0 --tags)
           export LDFLAGS="-s -w -buildid= -X github.com/v2fly/v2ray-core/v4.codename=${CODENAME} -X github.com/v2fly/v2ray-core/v4.build=${BUILDNAME} -X github.com/v2fly/v2ray-core/v4.version=${VERSIONTAG}"
-          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o /opt/v2ray -trimpath -ldflags "$LDFLAGS" ./main
-          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o /opt/v2ctl -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
+          CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -o /opt/v2ray-amd64 -trimpath -ldflags "$LDFLAGS" ./main
           CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -o /opt/v2ray-arm64 -trimpath -ldflags "$LDFLAGS" ./main
-          CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -o /opt/v2ctl-arm64 -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
           CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -o /opt/v2ray.exe -trimpath -ldflags "$LDFLAGS" ./main
-          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -o /opt/wv2ray.exe -trimpath -ldflags "-s -w -H windowsgui -buildid= -X github.com/v2fly/v2ray-core/v4.codename=${CODENAME} -X github.com/v2fly/v2ray-core/v4.build=${BUILDNAME} -X github.com/v2fly/v2ray-core/v4.version=${VERSIONTAG}" ./main
-          CGO_ENABLED=0 GOOS=windows GOARCH=amd64 go build -a -o /opt/v2ctl.exe -trimpath -ldflags "$LDFLAGS" -tags confonly ./infra/control/main
-
-      - name : Upload artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: v2ray-linux-64
-          path: |
-            /opt/v2ray
-            /opt/v2ctl
 
       - name : Upload artifact
         uses: actions/upload-artifact@v2
@@ -51,13 +39,17 @@ jobs:
           name: v2ray-windows-64
           path: |
             /opt/v2ray.exe
-            /opt/wv2ray.exe
-            /opt/v2ctl.exe
 
       - name : Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: v2ray-linux-arm64-v8a
+          name: v2ray-linux-64
           path: |
-            /opt/v2ray-arm64
+            /opt/v2ray-amd64
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: v2ray-linux-arm64
+          path: |
             /opt/v2ray-arm64
