@@ -49,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: K2P-nano
-          path: /opt/rt-n56u/trunk/images/*
+          path: /opt/rt-n56u/trunk/images/
 
   build:
     name: K2P_4.4
@@ -93,4 +93,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: K2P-nano
-          path: /opt/padavan/trunk/images/*
+          path: /opt/padavan/trunk/images/

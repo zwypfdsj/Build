@@ -44,7 +44,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            zwypfdsj/docker:v2ray
+            zwypfdsj/v2ray
             ghcr.io/zwypfdsj/v2ray:latest
 
       - name: XRay
@@ -55,7 +55,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            zwypfdsj/docker:xray
+            zwypfdsj/xray
             ghcr.io/zwypfdsj/xray:latest
 
       - name: Caddy
@@ -66,7 +66,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            zwypfdsj/docker:caddy
+            zwypfdsj/caddy
             ghcr.io/zwypfdsj/caddy:latest
 
       - name: RSSBot
@@ -77,7 +77,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            zwypfdsj/docker:rssbot
+            zwypfdsj/rssbot
             ghcr.io/zwypfdsj/rssbot:latest
 
       - name: nezha-dashboard
@@ -88,7 +88,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            zwypfdsj/docker:nezha-dashboard
+            zwypfdsj/nezha:dashboard
             ghcr.io/zwypfdsj/nezha-dashboard:latest
 
       - name: nezha-agent
@@ -99,7 +99,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            zwypfdsj/docker:nezha-agent
+            zwypfdsj/nezha:agent
             ghcr.io/zwypfdsj/nezha-agent:latest
 
       - name: Aria2
@@ -110,5 +110,5 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            zwypfdsj/docker:aria2
+            zwypfdsj/aria2
             ghcr.io/zwypfdsj/aria2:latest
