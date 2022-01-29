@@ -45,10 +45,10 @@ jobs:
           cd /opt/rt-n56u/trunk
           sudo ./build_firmware_ci K2P_nano
 
-      - name : Upload K2P-nano
+      - name : Upload
         uses: actions/upload-artifact@v2
         with:
-          name: K2P-nano
+          name: K2P-3.4
           path: /opt/rt-n56u/trunk/images/*
 
   job_4:
@@ -89,8 +89,8 @@ jobs:
           cd /opt/padavan/trunk
           sudo ./build_firmware_ci K2P_nano
 
-      - name : Upload K2P-nano
+      - name : Upload
         uses: actions/upload-artifact@v2
         with:
-          name: K2P-nano
+          name: K2P-4.4
           path: /opt/padavan/trunk/images/*
