@@ -4,7 +4,8 @@ on: workflow_dispatch
 
 jobs:
 
-  K2P_3.4:
+  3-4:
+    name: K2P_3.4
     runs-on: ubuntu-latest
 
     steps:
@@ -50,7 +51,8 @@ jobs:
           name: K2P-nano
           path: /opt/rt-n56u/trunk/images/*
 
-  K2P_4.4:
+  4-4:
+    name: K2P_4.4
     runs-on: ubuntu-latest
 
     steps:
