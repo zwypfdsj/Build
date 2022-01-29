@@ -40,7 +40,7 @@ jobs:
           sed -i 's/CONFIG_FIRMWARE_INCLUDE_FRPS=n/CONFIG_FIRMWARE_INCLUDE_FRPS=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
           sed -i 's/CONFIG_FIRMWARE_INCLUDE_WIREGUARD=n/CONFIG_FIRMWARE_INCLUDE_WIREGUARD=y/g' /opt/rt-n56u/trunk/configs/templates/K2P_nano.config
 
-      - name: Build K2P-nano
+      - name: Build
         run: |
           cd /opt/rt-n56u/trunk
           sudo ./build_firmware_ci K2P_nano
@@ -49,7 +49,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: K2P-3.4
-          path: /opt/rt-n56u/trunk/images/*
+          path: /opt/rt-n56u/trunk/images/K2P_3.4.3.9-099.trx
 
   job_4:
     name: K2P_4.4
@@ -84,7 +84,7 @@ jobs:
           sed -i 's/CONFIG_FIRMWARE_INCLUDE_FRPS=n/CONFIG_FIRMWARE_INCLUDE_FRPS=y/g' /opt/padavan/trunk/configs/templates/K2P_nano.config
           sed -i 's/CONFIG_FIRMWARE_INCLUDE_WIREGUARD=n/CONFIG_FIRMWARE_INCLUDE_WIREGUARD=y/g' /opt/padavan/trunk/configs/templates/K2P_nano.config
 
-      - name: Build K2P-nano
+      - name: Build
         run: |
           cd /opt/padavan/trunk
           sudo ./build_firmware_ci K2P_nano
@@ -93,4 +93,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: K2P-4.4
-          path: /opt/padavan/trunk/images/*
+          path: /opt/padavan/trunk/images/K2P_4.4.3.9-100.trx
