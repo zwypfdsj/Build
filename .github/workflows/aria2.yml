@@ -38,7 +38,15 @@ jobs:
           cd /opt/docker/aria2
           docker build -t aria2-mingw - < Dockerfile.mingw
           id=$(docker create aria2-mingw)
-          docker cp $id:/aria2/src/aria2c.exe /opt/docker/aria2/aria2c.exe
+          docker cp $id:/aria2/src/aria2c.exe /opt/docker/aria2/aria2c-mingw.exe
+          docker rm -v $id
+
+      - name: Aria2-win
+        run: |
+          cd /opt/docker/aria2
+          docker build -t aria2-win - < Dockerfile.win
+          id=$(docker create aria2-win)
+          docker cp $id:/aria2/src/aria2c.exe /opt/docker/aria2/aria2c-win.exe
           docker rm -v $id
 
       - name : Upload artifact
@@ -56,5 +64,11 @@ jobs:
       - name : Upload artifact
         uses: actions/upload-artifact@v2
         with:
-          name: aria2c.exe
-          path: /opt/docker/aria2/aria2c.exe
+          name: aria2c-mingw
+          path: /opt/docker/aria2/aria2c-mingw.exe
+
+      - name : Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: aria2c-win
+          path: /opt/docker/aria2/aria2c-win.exe
