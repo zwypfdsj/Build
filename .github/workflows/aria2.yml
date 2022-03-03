@@ -76,7 +76,7 @@ jobs:
           path: /opt/docker/aria2/aria2c-win.exe
 
   job_4:
-    name: Aria2-win
+    name: Aria2-mingw
     runs-on: ubuntu-latest
 
     steps:
