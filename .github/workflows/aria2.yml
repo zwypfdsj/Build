@@ -3,85 +3,121 @@ name: Aria2
 on: workflow_dispatch
 
 jobs:
-  build:
+  job_1:
+    name: Aria2-amd64
     runs-on: ubuntu-latest
 
     steps:
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
-      - name: Init
+      - name: Build
         run: |
-          sudo apt update
-          sudo apt install -y git
           git clone https://github.com/zwypfdsj/docker.git /opt/docker
-
-      - name: Aria2-amd64
-        run: |
           cd /opt/docker/aria2
           docker build -t aria2-amd64 - < Dockerfile.amd64
           id=$(docker create aria2-amd64)
           docker cp $id:/aria2/src/aria2c /opt/docker/aria2/aria2c-amd64
           docker rm -v $id
 
-      - name : Upload artifact
+      - name : Upload
         uses: actions/upload-artifact@v2
         with:
           name: aria2c-amd64
           path: /opt/docker/aria2/aria2c-amd64
 
-      - name: Aria2-arm64
+  job_2:
+    name: Aria2-arm64
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build
         run: |
+          git clone https://github.com/zwypfdsj/docker.git /opt/docker
           cd /opt/docker/aria2
           docker build -t aria2-arm64 - < Dockerfile.arm64
           id=$(docker create aria2-arm64)
           docker cp $id:/aria2/src/aria2c /opt/docker/aria2/aria2c-arm64
           docker rm -v $id
 
-      - name : Upload artifact
+      - name : Upload
         uses: actions/upload-artifact@v2
         with:
           name: aria2c-arm64
           path: /opt/docker/aria2/aria2c-arm64
 
-      - name: Aria2-win
+  job_3:
+    name: Aria2-win
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build
         run: |
+          git clone https://github.com/zwypfdsj/docker.git /opt/docker
           cd /opt/docker/aria2
           docker build -t aria2-win - < Dockerfile.win
           id=$(docker create aria2-win)
           docker cp $id:/aria2/src/aria2c.exe /opt/docker/aria2/aria2c-win.exe
           docker rm -v $id
 
-      - name : Upload artifact
+      - name : Upload
         uses: actions/upload-artifact@v2
         with:
           name: aria2c-win
           path: /opt/docker/aria2/aria2c-win.exe
 
-      - name: Aria2-mingw
+  job_4:
+    name: Aria2-win
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build
         run: |
+          git clone https://github.com/zwypfdsj/docker.git /opt/docker
           cd /opt/docker/aria2
           docker build -t aria2-mingw - < Dockerfile.mingw
           id=$(docker create aria2-mingw)
           docker cp $id:/aria2/src/aria2c.exe /opt/docker/aria2/aria2c-mingw.exe
           docker rm -v $id
 
-      - name : Upload artifact
+      - name : Upload
         uses: actions/upload-artifact@v2
         with:
           name: aria2c-mingw
           path: /opt/docker/aria2/aria2c-mingw.exe
 
-      - name: Aria2-gcc
+  job_5:
+    name: Aria2-gcc
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Build
         run: |
+          git clone https://github.com/zwypfdsj/docker.git /opt/docker
           cd /opt/docker/aria2
           docker build -t aria2-gcc - < Dockerfile.gcc
           id=$(docker create aria2-gcc)
           docker cp $id:/aria2/src/aria2c /opt/docker/aria2/aria2c-gcc
           docker rm -v $id
 
-      - name : Upload artifact
+      - name : Upload
         uses: actions/upload-artifact@v2
         with:
           name: aria2c-gcc
