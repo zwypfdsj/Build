@@ -1,4 +1,4 @@
-name: nezha
+name: Nezha
 
 on: workflow_dispatch
 
@@ -12,9 +12,9 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Setup Go
-        uses: actions/setup-go@v2
+        uses: actions/setup-go@v3
         with:
-          go-version: '^1.17'
+          go-version: '^1.18'
 
       - name: Init
         run: |
@@ -35,7 +35,7 @@ jobs:
           CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -a -trimpath -ldflags="-s -w" -o /nezha-agent-arm64
 
       - name : Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: nezha-dashboard
           path: |
@@ -43,7 +43,7 @@ jobs:
             /opt/nezha-dashboard-arm64
 
       - name : Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: nezha-agent
           path: |

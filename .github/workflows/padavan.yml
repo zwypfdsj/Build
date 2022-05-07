@@ -46,7 +46,7 @@ jobs:
           sudo ./build_firmware_ci K2P_nano
 
       - name : Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: K2P-3.4
           path: /opt/rt-n56u/trunk/images/K2P_3.4.3.9-099.trx
@@ -90,7 +90,7 @@ jobs:
           sudo ./build_firmware_ci K2P_nano
 
       - name : Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: K2P-4.4
           path: /opt/padavan/trunk/images/K2P_4.4.3.9-100.trx

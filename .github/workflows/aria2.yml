@@ -22,7 +22,7 @@ jobs:
           docker rm -v $id
 
       - name : Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: aria2c-amd64
           path: /opt/docker/aria2/aria2c-amd64
@@ -46,7 +46,7 @@ jobs:
           docker rm -v $id
 
       - name : Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: aria2c-arm64
           path: /opt/docker/aria2/aria2c-arm64
@@ -70,7 +70,7 @@ jobs:
           docker rm -v $id
 
       - name : Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: aria2c-win
           path: /opt/docker/aria2/aria2c-win.exe
@@ -94,7 +94,7 @@ jobs:
           docker rm -v $id
 
       - name : Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: aria2c-mingw
           path: /opt/docker/aria2/aria2c-mingw.exe
@@ -118,7 +118,7 @@ jobs:
           docker rm -v $id
 
       - name : Upload
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: aria2c-gcc
           path: /opt/docker/aria2/aria2c-gcc
