@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   job_1:
-    name: Aria2-amd64
+    name: Aria2-x64
     runs-on: ubuntu-latest
 
     steps:
@@ -16,19 +16,19 @@ jobs:
         run: |
           git clone https://github.com/zwypfdsj/docker.git /opt/docker
           cd /opt/docker/aria2
-          docker build -t aria2-amd64 - < Dockerfile.amd64
-          id=$(docker create aria2-amd64)
-          docker cp $id:/aria2/src/aria2c /opt/docker/aria2/aria2c-amd64
+          docker build -t aria2-x64 - < Dockerfile.x64
+          id=$(docker create aria2-x64)
+          docker cp $id:/aria2/src/aria2c /opt/docker/aria2/aria2c-x64
           docker rm -v $id
 
       - name : Upload
         uses: actions/upload-artifact@v3
         with:
-          name: aria2c-amd64
-          path: /opt/docker/aria2/aria2c-amd64
+          name: aria2c-x64
+          path: /opt/docker/aria2/aria2c-x64
 
   job_2:
-    name: Aria2-arm64
+    name: Aria2-musl
     runs-on: ubuntu-latest
 
     steps:
@@ -40,16 +40,16 @@ jobs:
         run: |
           git clone https://github.com/zwypfdsj/docker.git /opt/docker
           cd /opt/docker/aria2
-          docker build -t aria2-arm64 - < Dockerfile.arm64
-          id=$(docker create aria2-arm64)
-          docker cp $id:/aria2/src/aria2c /opt/docker/aria2/aria2c-arm64
+          docker build -t aria2-musl - < Dockerfile.musl
+          id=$(docker create aria2-musl)
+          docker cp $id:/aria2/src/aria2c /opt/docker/aria2/aria2c-musl
           docker rm -v $id
 
       - name : Upload
         uses: actions/upload-artifact@v3
         with:
-          name: aria2c-arm64
-          path: /opt/docker/aria2/aria2c-arm64
+          name: aria2c-musl
+          path: /opt/docker/aria2/aria2c-musl
 
   job_3:
     name: Aria2-win
