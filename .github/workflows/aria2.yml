@@ -17,7 +17,7 @@ jobs:
           git clone https://github.com/zwypfdsj/docker.git /opt/docker
           cd /opt/docker/aria2
           docker build -t aria2-gcc - < Dockerfile.gcc
-          docker run --rm -it -v /opt/docker/aria2:/out aria2-gcc cp /aria2/src/aria2c /out/aria2c-gcc
+          docker run --rm -dit -v /opt/docker/aria2:/out aria2-gcc cp /aria2/src/aria2c /out/aria2c-gcc
 
       - name : Upload
         uses: actions/upload-artifact@v3
@@ -39,7 +39,7 @@ jobs:
           git clone https://github.com/zwypfdsj/docker.git /opt/docker
           cd /opt/docker/aria2
           docker build -t aria2-x64 - < Dockerfile.x64
-          docker run --rm -it -v /opt/docker/aria2:/out aria2-x64 cp /aria2/src/aria2c /out/aria2c-x64
+          docker run --rm -dit -v /opt/docker/aria2:/out aria2-x64 cp /aria2/src/aria2c /out/aria2c-x64
 
       - name : Upload
         uses: actions/upload-artifact@v3
@@ -61,7 +61,7 @@ jobs:
           git clone https://github.com/zwypfdsj/docker.git /opt/docker
           cd /opt/docker/aria2
           docker build -t aria2-musl - < Dockerfile.musl
-          docker run --rm -it -v /opt/docker/aria2:/out aria2-musl cp /aria2/src/aria2c /out/aria2c-musl
+          docker run --rm -dit -v /opt/docker/aria2:/out aria2-musl cp /aria2/src/aria2c /out/aria2c-musl
 
       - name : Upload
         uses: actions/upload-artifact@v3
@@ -83,7 +83,7 @@ jobs:
           git clone https://github.com/zwypfdsj/docker.git /opt/docker
           cd /opt/docker/aria2
           docker build -t aria2-win - < Dockerfile.win
-          docker run --rm -it -v /opt/docker/aria2:/out aria2-win cp /aria2/src/aria2c.exe /out/aria2c-win.exe
+          docker run --rm -dit -v /opt/docker/aria2:/out aria2-win cp /aria2/src/aria2c.exe /out/aria2c-win.exe
 
       - name : Upload
         uses: actions/upload-artifact@v3
@@ -105,7 +105,7 @@ jobs:
           git clone https://github.com/zwypfdsj/docker.git /opt/docker
           cd /opt/docker/aria2
           docker build -t aria2-mingw - < Dockerfile.mingw
-          docker run --rm -it -v /opt/docker/aria2:/out aria2-mingw cp /aria2/src/aria2c.exe /out/aria2c-mingw.exe
+          docker run --rm -dit -v /opt/docker/aria2:/out aria2-mingw cp /aria2/src/aria2c.exe /out/aria2c-mingw.exe
 
       - name : Upload
         uses: actions/upload-artifact@v3
